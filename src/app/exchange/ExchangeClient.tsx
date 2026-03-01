@@ -30,7 +30,8 @@ export default function ExchangeClient({ lang }: { lang: "ru"|"en" }) {
   const markup = 1.5;
 
   function onCoinChange(v: string) {
-    setCoin(v);
+  setCoin(v as any);
+}
     const n = COINS.find(c => c.code === v)?.networks ?? [];
     const nextNet = n[0]?.network ?? "";
     setNetwork(nextNet);
