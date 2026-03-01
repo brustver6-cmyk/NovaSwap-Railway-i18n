@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum OrderStatus {
+  NEW
+  WAITING_PAYMENT
+  PAID
+  PROCESSING
+  COMPLETED
+  CANCELED
+  REVIEW
+  EXPIRED
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  fromCoin        String
+  network         String
+  amountFrom      Float
+
+  payoutCurrency  String
+  amountToPayout  Float
+
+  rateLockedUsd   Float
+  markupPercent   Float
+  rateExpiresAt   DateTime
+
+  depositAddress  String
+  depositMemo     String      @default("")
+  payinTxHash     String      @default("")
+
+  cardNumberMask  String
+  cardHolder      String
+  contact         String
+
+  status          OrderStatus @default(NEW)
+  adminNote       String      @default("")
+}
